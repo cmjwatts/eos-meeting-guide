@@ -673,6 +673,14 @@ button { font-family: inherit; }
 /* spacing below the trial CTA on the closing page */
 .g-cta__secondary { margin-top: 18px; }
 
+/* slim strip right below the hero card on Set Up, above the progress bar */
+.g2-pdf-strip {
+  margin-top: 12px; text-align: right;
+}
+@media (max-width: 560px) {
+  .g2-pdf-strip { text-align: center; }
+}
+
 /* ============================ MOBILE BOTTOM TAB BAR ============================ */
 /* On phones the four stage tabs can't share the top bar with the CTA, so they
    move to a fixed bottom bar (native-app pattern): no scrolling, all stages and
@@ -1207,9 +1215,10 @@ button { font-family: inherit; }
       '<div class="g-eyebrow">' + stage.eyebrow + '</div>' +
       '<h1 class="g-h1">' + stage.title + '</h1>' +
       '<p class="g-lead">' + stage.lead + '</p>' +
-      '<div class="g2-herorow"><a class="g-btn g-btn--primary" data-trial href="#">' + stage.heroCta + ' ' + iArrow(16) + '</a>' + pdfBtnHTML("ghost") + '</div>' +
+      '<div class="g2-herorow"><a class="g-btn g-btn--primary" data-trial href="#">' + stage.heroCta + ' ' + iArrow(16) + '</a></div>' +
       '<p class="g2-reassure">' + stage.reassure + '</p></div>' +
       videoSlotHTML(stage.video, true) + '</div>' +
+      '<div class="g2-pdf-strip">' + pdfBtnHTML("link") + '</div>' +
       progHTML(p.done, p.total, pct, p.done + ' of ' + p.total + ' set up') + '</header>' +
       setupChecklistHTML(stage) +
       '<div class="g2-success' + (allDone ? " is-done" : "") + '">' +
