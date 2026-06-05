@@ -652,6 +652,27 @@ button { font-family: inherit; }
   .g-quote img { display: none; }
 }
 
+/* ============================ PDF CHECKLIST DOWNLOAD ============================ */
+/* ghost button alongside the hero CTA on Set Up */
+.g-pdf-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  color: var(--color-brand-black); border-color: var(--color-brand-slate);
+}
+.g-pdf-btn svg { flex-shrink: 0; }
+
+/* plain text link below the CTA page trial button */
+.g-pdf-link {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 14px; font-weight: 600; color: var(--color-brand-grey);
+  text-decoration: none; cursor: pointer;
+  transition: color var(--t-base);
+}
+.g-pdf-link:hover { color: var(--color-brand-black); }
+.g-pdf-link svg { flex-shrink: 0; }
+
+/* spacing below the trial CTA on the closing page */
+.g-cta__secondary { margin-top: 18px; }
+
 /* ============================ MOBILE BOTTOM TAB BAR ============================ */
 /* On phones the four stage tabs can't share the top bar with the CTA, so they
    move to a fixed bottom bar (native-app pattern): no scrolling, all stages and
@@ -710,7 +731,7 @@ button { font-family: inherit; }
 
   /* ---------- content (ported verbatim from data.jsx) ---------- */
   var GUIDE = {
-    trial: { label: "Start your free trial", href: "https://www.ninety.io/sign-up" },
+    trial: { label: "Start your free trial", href: "https://app.ninety.io/sign-up?utm_campaign=run-your-first-l10" },
 
     start: {
       eyebrow: "The weekly meeting playbook",
@@ -742,7 +763,7 @@ button { font-family: inherit; }
         reassure:
           "Your meeting isn't broken — it's scattered across tabs, docs, and inboxes. That's a system problem, and it's fixable today.",
         heroCta: "Do this in Ninety — free",
-        video: { duration: "1:24", title: "Set up your Level 10 Meeting™ in about 20 minutes" },
+        video: { duration: "1:24", title: "Set up your Level 10 Meeting™ in about 20 minutes", ytid: "ynbz4AMy_4A" },
         checklist: {
           heading: "The setup checklist",
           sub: "Run through these once, top to bottom. Each step leads with the action — open “Why it matters” if you want the reasoning.",
@@ -798,7 +819,7 @@ button { font-family: inherit; }
         title: "Win the meeting before it starts",
         lead:
           "Almost everyone skips prep — and it's exactly where great meetings are won. Ten minutes of discipline beats ninety minutes of scrambling.",
-        video: { duration: "1:10", title: "The 10 minutes that make or break your meeting" },
+        video: { duration: "1:10", title: "The 10 minutes that make or break your meeting", ytid: "pb5p6troGFg" },
         checklist: {
           heading: "The pre-meeting checklist - every week - every team member",
           items: [
@@ -838,7 +859,7 @@ button { font-family: inherit; }
         title: "Run 90 minutes nobody dreads",
         lead:
           "Same day, same time, every week. A tight agenda, two rules, and one number at the end. This is how you run the Level 10 Meeting™.",
-        video: { duration: "2:05", title: "How to run 90 minutes people don't dread" },
+        video: { duration: "2:05", title: "How to run 90 minutes people don't dread", ytid: "rmNIyzU3jhM" },
         checklist: {
           heading: "The facilitation checklist",
           items: [
@@ -895,7 +916,7 @@ button { font-family: inherit; }
         title: "Keep accountability alive all week",
         lead:
           "The meeting is 90 minutes. Accountability is the other six days. This is where the rhythm is won — or quietly lost.",
-        video: { duration: "1:18", title: "Why your accountability falls apart by Wednesday" },
+        video: { duration: "1:18", title: "Why your accountability falls apart by Wednesday", ytid: "Q2K_q6qqx8Q" },
         checklist: {
           heading: "The follow-through checklist",
           items: [
@@ -1012,6 +1033,10 @@ button { font-family: inherit; }
     s = s || 15;
     return '<svg width="' + s + '" height="' + s + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
   }
+  function iDownload(s) {
+    s = s || 15;
+    return '<svg width="' + s + '" height="' + s + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>';
+  }
 
   /* ---------- shared components ---------- */
   function navHTML(route) {
@@ -1029,12 +1054,13 @@ button { font-family: inherit; }
   }
 
   function videoSlotHTML(video, dark) {
+    var ytAttr = video.ytid ? ' data-ytid="' + video.ytid + '"' : '';
     if (dark) {
-      return '<div class="g2-media" role="button" aria-label="' + esc("Play video: " + video.title) + '">' +
+      return '<div class="g2-media" role="button" aria-label="' + esc("Play video: " + video.title) + '"' + ytAttr + '>' +
         '<div class="g2-media__tex"></div><div class="g2-media__play"></div>' +
         '<div class="g2-media__cap"><span class="dot"></span>' + video.title + ' · ' + video.duration + '</div></div>';
     }
-    return '<div class="g-video" role="button" aria-label="' + esc("Play video: " + video.title) + '">' +
+    return '<div class="g-video" role="button" aria-label="' + esc("Play video: " + video.title) + '"' + ytAttr + '>' +
       '<div class="g-video__play"></div><div class="g-video__cap">' + video.title + '</div>' +
       '<div class="g-video__chip">' + video.duration + '</div></div>';
   }
@@ -1122,6 +1148,20 @@ button { font-family: inherit; }
       '<a class="g-ninety__link" data-trial href="#">30 Days Free in Ninety ' + iArrow(14) + '</a></div></div></div>';
   }
 
+  /* ---------- PDF checklist download ---------- */
+  var PDF_URL = "https://www.ninety.io/hubfs/90_Run_L10_20_Minutes_Checklist.pdf";
+
+  // variant "ghost" = outlined button (used alongside primary CTA)
+  // variant "link"  = plain text link (used as secondary below trial CTA)
+  function pdfBtnHTML(variant) {
+    if (variant === "link") {
+      return '<a class="g-pdf-link" href="' + PDF_URL + '" target="_blank" rel="noopener">' +
+        iDownload(14) + ' Download the PDF checklist</a>';
+    }
+    return '<a class="g-btn g-btn--ghost g-pdf-btn" href="' + PDF_URL + '" target="_blank" rel="noopener">' +
+      iDownload(16) + ' PDF checklist</a>';
+  }
+
   function quoteHTML(quote) {
     return '<div class="g-quote"><img src="' + CIRCLE + '" alt="">' +
       '<div><blockquote>“' + quote.text + '”</blockquote><cite>— ' + quote.cite + '</cite></div></div>';
@@ -1167,7 +1207,7 @@ button { font-family: inherit; }
       '<div class="g-eyebrow">' + stage.eyebrow + '</div>' +
       '<h1 class="g-h1">' + stage.title + '</h1>' +
       '<p class="g-lead">' + stage.lead + '</p>' +
-      '<div class="g2-herorow"><a class="g-btn g-btn--primary" data-trial href="#">' + stage.heroCta + ' ' + iArrow(16) + '</a></div>' +
+      '<div class="g2-herorow"><a class="g-btn g-btn--primary" data-trial href="#">' + stage.heroCta + ' ' + iArrow(16) + '</a>' + pdfBtnHTML("ghost") + '</div>' +
       '<p class="g2-reassure">' + stage.reassure + '</p></div>' +
       videoSlotHTML(stage.video, true) + '</div>' +
       progHTML(p.done, p.total, pct, p.done + ' of ' + p.total + ' set up') + '</header>' +
@@ -1237,6 +1277,7 @@ button { font-family: inherit; }
       '<p class="g-cta__body">' + d.body + '</p>' +
       '<div class="g-cta__payoff">' + d.payoff + '</div>' +
       '<div class="g-cta__ctas"><a class="g-btn g-btn--primary" data-trial href="#">' + GUIDE.trial.label + ' ' + iArrow(16) + '</a></div>' +
+      '<div class="g-cta__secondary">' + pdfBtnHTML("link") + '</div>' +
       '</section>' +
       '<div class="g-foot"><button class="g-foot__btn" data-go="follow-through"><span class="g-foot__dir">Previous</span><span class="g-foot__ttl">Follow Through</span></button>' +
       '<button class="g-foot__btn is-next" data-go="set-up"><span class="g-foot__dir">Revisit</span><span class="g-foot__ttl">Back to Stage 01 →</span></button></div></div>';
@@ -1283,6 +1324,21 @@ button { font-family: inherit; }
 
   document.addEventListener("click", function (e) {
     var t;
+    // YouTube click-to-play: swap the branded overlay for an embedded iframe.
+    // Uses youtube-nocookie domain + autoplay. No YouTube script is loaded until
+    // the user actually clicks, so the page stays fast on first load.
+    if ((t = ancestor(e.target, "[data-ytid]"))) {
+      var ytid = t.getAttribute("data-ytid");
+      if (!ytid) return;
+      var wrapper = document.createElement("div");
+      wrapper.style.cssText = "position:relative;padding-top:56.25%;background:#000;min-height:0;";
+      wrapper.innerHTML = '<iframe style="position:absolute;top:0;left:0;width:100%;height:100%;border:0"' +
+        ' src="https://www.youtube-nocookie.com/embed/' + ytid + '?autoplay=1&rel=0&modestbranding=1"' +
+        ' frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"' +
+        ' allowfullscreen></iframe>';
+      t.parentNode.replaceChild(wrapper, t);
+      return;
+    }
     if ((t = ancestor(e.target, "[data-toggle]"))) {
       var pr = t.getAttribute("data-toggle").split("|");
       toggle(pr[0], parseInt(pr[1], 10));
